@@ -1,19 +1,15 @@
-import ratelimit from "../config/upstash.js";
+// backend/config/upstash.js
+import { RateLimiter } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
 
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN,
+});
 
-const ratelimiter = async (req, res, next) => { 
-    try {
-        const { success } = await ratelimit.limit("my-rate-limit")
-        
-        if (!success) {
-            return res.status(429).json({ error: "Rate limit exceeded. Please try again later." });
-        }
-        next();
-    } catch (error) {
-        console.error("Error in rate limiter middleware:", error);
-        return res.status(500).json({ error: "Internal server error." });
-        
-    }
-}
+const ratelimit = new RateLimiter({
+  redis,
+  limiter: RateLimiter.fixedWindow(5, "10 s"), // e.g., 5 reqs per 10 sec
+});
 
-export default ratelimiter;
+export default ratelimit;

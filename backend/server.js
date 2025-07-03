@@ -12,8 +12,6 @@ const app = express();
 app.use(ratelimiter);
 app.use(express.json());
 
-
-
 app.use("/api/transactions", transactionsRoute);
 
 initDB().then(() => {

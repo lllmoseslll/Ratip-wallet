@@ -92,7 +92,6 @@ export const deleteTransaction = async (req, res) => {
       message: "Transaction deleted",
       data: result[0],
     });
-      
   } catch (error) {
     console.error("Error deleting transaction:", error);
     return res.status(500).json({ error: "Internal server error." });

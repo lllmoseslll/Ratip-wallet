@@ -19,7 +19,7 @@ export const useTransactions = (userId) => {
     try {
       const response = await fetch(`${API_URL}/transactions/${userId}`);
       const data = await response.json();
-      setTransactions(data.transactions);
+      setTransactions(data);
     } catch (error) {
       console.log("Error fetching transactions:", error);
     }
@@ -29,7 +29,7 @@ export const useTransactions = (userId) => {
     try {
       const response = await fetch(`${API_URL}/transactions/summary/${userId}`);
       const data = await response.json();
-      setSummary(data.summary); // Fixed this line
+      setSummary(data); 
     } catch (error) {
       console.log("Error fetching summary:", error);
     }
